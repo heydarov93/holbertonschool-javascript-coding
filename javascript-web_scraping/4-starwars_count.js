@@ -3,8 +3,7 @@
 const request = require('request');
 
 const characterId = 18;
-const parsedUrl = process.argv[2].replace(/films$/, 'people/');
-const URL = `${parsedUrl}${characterId}`;
+const URL = `${process.argv[2]}`;
 
 request(URL, { json: true }, (err, res, body) => {
   if (err) {
@@ -12,8 +11,13 @@ request(URL, { json: true }, (err, res, body) => {
     return;
   }
 
-  if (body.films)
-    console.log(body.films.length);
-  else
-    console.log(0);
+  let countFilms = 0;
+
+  body.results.forEach(episode => {
+    episode.characters.forEach((characterUrl) => {
+      if (characterUrl.endsWith(`${characterId}/`)) { countFilms += 1; }
+    });
+  });
+
+  console.log(countFilms);
 });
