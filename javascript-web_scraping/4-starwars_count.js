@@ -12,5 +12,8 @@ request(URL, { json: true }, (err, res, body) => {
     return;
   }
 
-  console.log(body.films.length);
+  if (body.films)
+    console.log(body.films.length);
+  else
+    console.log(0);
 });
